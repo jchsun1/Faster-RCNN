@@ -19,5 +19,4 @@ requirements.txt	环境依赖
 
 # 程序运行流程
 (1) 运行Train.py，程序会在训练数据集上进行Faster RCNN分类和回归多任务训练，并生成./model/路径保存模型\
-(3) 运行Predict.py，对数据集进行预测，生成./predict/目录保存预测结果
-
+(2) 运行Predict.py，对数据集进行预测，生成./predict/目录保存预测结果
