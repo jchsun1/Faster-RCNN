@@ -656,7 +656,7 @@ class ROIHead(nn.Module):
         nn.init.kaiming_normal_(self.regressor.weight)
         nn.init.kaiming_normal_(self.classifier.weight)
 
-        # 后续采用的roi坐标为特征图上坐标, 因此spatial_scale直接设置为1.0即可
+        # 后续进行roi池化前, 先将原图坐标变换成了特征图坐标, 因此spatial_scale直接设置为1.0即可
         # 注意roi_pool要求roi坐标满足格式[x1, y1, x2, y2]
         self.roi_pool = RoIPool(output_size=(pool_size, pool_size), spatial_scale=spatial_scale)
 
@@ -679,6 +679,7 @@ class ROIHead(nn.Module):
 
         # 计算原图roi区域映射到特征图后对应的边界框位置, 维度为[num * num_samples, 4]
         rois_on_features = torch.zeros_like(rois)
+        # 将rois对应的原图坐标映射到特征图上
         # 计算[x1, x2]映射后的坐标
         rois_on_features[:, [0, 2]] = rois[:, [0, 2]] * (fw / im_width)
         # 计算[y1, y2]映射后的坐标
